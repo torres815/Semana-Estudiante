@@ -29,3 +29,16 @@ if ($accion == 'registrar_usuario') {
         header("Location: master.php?msg=error");
     }
 }
+// --- NUEVA ACCIÓN: ACTUALIZAR PUNTOS INICIALES ---
+if ($accion == 'actualizar_puntos_iniciales') {
+    $curso_id = $_POST['curso_id'];
+    $puntos_ini = (int)$_POST['puntos_ini'];
+
+    try {
+        $stmt = $conexion->prepare("UPDATE cursos SET puntos_iniciales = ? WHERE id = ?");
+        $stmt->execute([$puntos_ini, $curso_id]);
+        header("Location: master.php?msg=puntos_ok");
+    } catch (Exception $e) {
+        header("Location: master.php?msg=error");
+    }
+}

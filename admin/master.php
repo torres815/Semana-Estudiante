@@ -106,6 +106,46 @@ if (isset($_GET['msg'])) {
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <div class="row mt-5">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">Gestión de Cursos y Puntos Iniciales</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th>División</th>
+                            <th>Puntos Iniciales</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $cursos_master = $conexion->query("SELECT * FROM cursos ORDER BY nombre_curso ASC")->fetchAll(PDO::FETCH_ASSOC);
+                        foreach($cursos_master as $cm): 
+                        ?>
+                        <tr>
+                            <form action="procesar_master.php" method="POST">
+                                <input type="hidden" name="accion" value="actualizar_puntos_iniciales">
+                                <input type="hidden" name="curso_id" value="<?= $cm['id'] ?>">
+                                <td><?= $cm['nombre_curso'] ?></td>
+                                <td><?= $cm['division'] ?></td>
+                                <td>
+                                    <input type="number" name="puntos_ini" class="form-control form-control-sm" value="<?= $cm['puntos_iniciales'] ?>">
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                                </td>
+                            </form>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
             </div>
         </div>

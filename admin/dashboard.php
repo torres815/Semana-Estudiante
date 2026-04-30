@@ -35,6 +35,12 @@ if (isset($_GET['error'])) $mensaje = "Hubo un error al cargar los puntos.";
                 <a href="master.php" class="btn btn-warning btn-sm">Panel Master</a>
             <?php endif; ?>
             <a href="../procesar_logout.php" class="btn btn-danger btn-sm">Cerrar Sesión</a>
+            <?php if($_SESSION['rol'] == 'master'): ?>    
+            <a href="sorteo.php" class="btn btn-primary btn-sm">sorteo</a>
+                                <a href="asistencia.php" class="btn btn-primary btn-sm">asistencia</a>
+<?php endif; ?>
+    
+</div>
         </div>
     </div>
 </nav>
@@ -91,8 +97,10 @@ if (isset($_GET['error'])) $mensaje = "Hubo un error al cargar los puntos.";
                     </form>
                 </div>
             </div>
+            
         </div>
     </div>
+    
 </div>
 
 </body>
