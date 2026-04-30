@@ -35,55 +35,144 @@ $historial = $stmtPuntos->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Detalle de Puntos - <?php echo $curso['nombre_curso']; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-light">
 
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Detalle: <span class="text-primary"><?php echo $curso['nombre_curso']; ?></span></h2>
-        <a href="index.php" class="btn btn-secondary">← Volver</a>
+<div class="container py-5">
+
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                📊 Detalle:
+                <span class="text-primary">
+                    <?php echo $curso['nombre_curso']; ?>
+                </span>
+            </h2>
+
+            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
+                División <?php echo $curso['division']; ?>
+            </span>
+        </div>
+
+        <a href="index.php" class="btn btn-outline-primary rounded-pill px-4 shadow-sm">
+            ← Volver
+        </a>
+
     </div>
 
-    <div class="card shadow">
-        <div class="card-header bg-dark text-white">
-            Historial de Movimientos - <?php echo $curso['division']; ?>
+    <!-- Card principal -->
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+        <!-- Header -->
+        <div class="card-header bg-primary text-white border-0 py-3 px-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h5 class="mb-0 fw-bold">
+                    🏆 Historial de Movimientos
+                </h5>
+
+                <span class="badge bg-light text-primary rounded-pill px-3 py-2 fw-semibold">
+                    Semana del Estudiante
+                </span>
+            </div>
         </div>
-        <div class="card-body p-0">
-            <table class="table table-striped mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Día</th>
-                        <th>Puntos</th>
-                        <th>Motivo</th>
-                        <th>Fecha/Hora</th>
-                        <th>Cargado por</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (count($historial) > 0): ?>
-                        <?php foreach ($historial as $h): ?>
-                            <tr>
-                                <td><span class="badge bg-info text-dark"><?php echo $h['dia_semana']; ?></span></td>
-                                <td>
-                                    <strong class="<?php echo $h['cantidad'] >= 0 ? 'text-success' : 'text-danger'; ?>">
-                                        <?php echo ($h['cantidad'] > 0 ? '+' : '') . $h['cantidad']; ?>
-                                    </strong>
-                                </td>
-                                <td><?php echo $h['motivo']; ?></td>
-                                <td><small><?php echo date('d/m H:i', strtotime($h['fecha_registro'])); ?> hs</small></td>
-                                <td><small class="text-muted">@<?php echo $h['username']; ?></small></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+
+        <!-- Body -->
+        <div class="card-body p-0 bg-white">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <!-- Head -->
+                    <thead class="table-dark">
                         <tr>
-                            <td colspan="5" class="text-center py-4">Este curso aún no tiene puntos registrados.</td>
+                            <th class="ps-4 py-3">Día</th>
+                            <th>Puntos</th>
+                            <th>Motivo</th>
+                            <th>Fecha / Hora</th>
+                            <th class="pe-4">Cargado por</th>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                    </thead>
+
+                    <!-- Body -->
+                    <tbody>
+
+                        <?php if (count($historial) > 0): ?>
+                            <?php foreach ($historial as $h): ?>
+
+                                <tr>
+
+                                    <!-- Día -->
+                                    <td class="ps-4">
+                                        <span class="badge bg-info-subtle text-dark rounded-pill px-3 py-2">
+                                            <?php echo $h['dia_semana']; ?>
+                                        </span>
+                                    </td>
+
+                                    <!-- Puntos -->
+                                    <td>
+                                        <span class="fw-bold fs-5 <?php echo $h['cantidad'] >= 0 ? 'text-success' : 'text-danger'; ?>">
+                                            <?php echo ($h['cantidad'] > 0 ? '+' : '') . $h['cantidad']; ?>
+                                        </span>
+                                    </td>
+
+                                    <!-- Motivo -->
+                                    <td class="fw-semibold text-dark">
+                                        <?php echo $h['motivo']; ?>
+                                    </td>
+
+                                    <!-- Fecha -->
+                                    <td>
+                                        <small class="text-muted">
+                                            <?php echo date('d/m H:i', strtotime($h['fecha_registro'])); ?> hs
+                                        </small>
+                                    </td>
+
+                                    <!-- Usuario -->
+                                    <td class="pe-4">
+                                        <span class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-2">
+                                            @<?php echo $h['username']; ?>
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            <?php endforeach; ?>
+
+                        <?php else: ?>
+
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+
+                                    <div class="d-flex flex-column align-items-center gap-2">
+                                        <div style="font-size: 2rem;">📭</div>
+
+                                        <div class="fw-semibold text-muted">
+                                            Este curso aún no tiene puntos registrados
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        <?php endif; ?>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
+
     </div>
+
 </div>
 
 </body>

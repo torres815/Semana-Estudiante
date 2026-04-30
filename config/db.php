@@ -1,9 +1,9 @@
 <?php
 // Configuración de la base de datos
-$host = "10.0.24.101";
-$db_name = "jxkhkuhk_gestiondepuntos";
-$username = "jxkhkuhk_gestiondepuntos";
-$password = "mc[&gbvP_!Y$6.fn";
+$host = "localhost";
+$db_name = "semana_estudiante";
+$username = "root";
+$password = "root";
 try {
     // Creamos la conexión usando PDO
     $conexion = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8", $username, $password);

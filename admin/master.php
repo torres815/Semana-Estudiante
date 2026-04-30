@@ -26,130 +26,341 @@ if (isset($_GET['msg'])) {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Panel Master - Control Total</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel Master - Control Total</title>
 
-<nav class="navbar navbar-dark bg-danger mb-4">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:linear-gradient(135deg,#111827 0%, #1f2937 35%, #f5f7fa 35%, #f5f7fa 100%);
+    min-height:100vh;
+}
+
+.master-navbar{
+    background:linear-gradient(135deg,#7f1d1d,#dc2626);
+}
+
+.master-card{
+    border:none;
+    border-radius:24px;
+    overflow:hidden;
+}
+
+.master-shadow{
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
+}
+
+.section-title{
+    font-weight:800;
+    letter-spacing:.4px;
+}
+
+.form-control,
+.form-select{
+    border-radius:14px;
+    padding:12px 14px;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:none;
+    border-color:#dc2626;
+}
+
+.btn-master{
+    border-radius:14px;
+    font-weight:700;
+    padding:12px 16px;
+}
+
+.table thead th{
+    white-space:nowrap;
+}
+
+.glow-badge{
+    box-shadow:0 0 0 4px rgba(255,255,255,.08);
+}
+
+.stat-box{
+    border:none;
+    border-radius:18px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR MASTER -->
+<nav class="navbar navbar-expand-lg navbar-dark master-navbar shadow mb-4">
     <div class="container">
-        <span class="navbar-brand">🛡️ PANEL MASTER ADM</span>
-        <a href="dashboard.php" class="btn btn-outline-light btn-sm">Volver al Panel de Carga</a>
+
+        <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+            👑 PANEL MASTER
+        </a>
+
+        <div class="d-flex gap-2">
+            <span class="badge bg-light text-danger px-3 py-2 rounded-pill glow-badge">
+                CONTROL TOTAL
+            </span>
+
+            <a href="dashboard.php" class="btn btn-outline-light btn-sm rounded-pill px-4">
+                ← Volver
+            </a>
+        </div>
+
     </div>
 </nav>
 
-<div class="container">
+<div class="container pb-5">
+
     <?php if($mensaje): ?>
-        <div class="alert alert-success"><?php echo $mensaje; ?></div>
+        <div class="alert alert-success border-0 rounded-4 shadow-sm fw-semibold">
+            ✅ <?php echo $mensaje; ?>
+        </div>
     <?php endif; ?>
 
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white">Visibilidad de la Tabla</div>
-                <div class="card-body text-center">
-                    <p>Estado actual: <strong><?php echo $config['tabla_visible'] ? 'PÚBLICO' : 'OCULTO'; ?></strong></p>
+    <!-- BLOQUE SUPERIOR -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="card stat-box shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Nivel de acceso</small>
+                    <h5 class="fw-bold text-danger mb-0">MASTER</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-box shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Permisos</small>
+                    <h5 class="fw-bold mb-0">Ilimitados</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-box shadow-sm">
+                <div class="card-body">
+                    <small class="text-muted">Sistema</small>
+                    <h5 class="fw-bold text-success mb-0">Operativo</h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- VISIBILIDAD -->
+        <div class="col-lg-4">
+
+            <div class="card master-card master-shadow">
+
+                <div class="card-header bg-dark text-white py-3 px-4 border-0">
+                    <h5 class="mb-0 section-title">🛰️ VISIBILIDAD GLOBAL</h5>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <p class="mb-3">
+                        Estado actual:
+                        <strong class="<?php echo $config['tabla_visible'] ? 'text-success':'text-danger'; ?>">
+                            <?php echo $config['tabla_visible'] ? 'PÚBLICO' : 'OCULTO'; ?>
+                        </strong>
+                    </p>
+
                     <form action="procesar_master.php" method="POST">
+
                         <input type="hidden" name="accion" value="cambiar_visibilidad">
                         <input type="hidden" name="estado_actual" value="<?php echo $config['tabla_visible']; ?>">
-                        
+
                         <?php if($config['tabla_visible']): ?>
-                            <button type="submit" class="btn btn-warning w-100">Ocultar Tabla para Usuarios</button>
+                            <button type="submit" class="btn btn-warning w-100 btn-master">
+                                🔒 Ocultar Tabla
+                            </button>
                         <?php else: ?>
-                            <button type="submit" class="btn btn-success w-100">Hacer Tabla Pública</button>
+                            <button type="submit" class="btn btn-success w-100 btn-master">
+                                🌍 Hacer Pública
+                            </button>
                         <?php endif; ?>
+
                     </form>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">Registrar Nuevo Usuario (Admin)</div>
-                <div class="card-body">
+        <!-- GESTION USUARIOS -->
+        <div class="col-lg-8">
+
+            <div class="card master-card master-shadow">
+
+                <div class="card-header bg-danger text-white py-3 px-4 border-0">
+                    <h5 class="mb-0 section-title">🛡️ CREAR NUEVO ADMINISTRADOR</h5>
+                </div>
+
+                <div class="card-body p-4">
+
                     <form action="procesar_master.php" method="POST">
+
                         <input type="hidden" name="accion" value="registrar_usuario">
+
                         <div class="row">
+
                             <div class="col-md-6 mb-3">
-                                <label>Nombre de Usuario</label>
+                                <label class="form-label fw-semibold">Usuario</label>
                                 <input type="text" name="nuevo_username" class="form-control" required>
                             </div>
+
                             <div class="col-md-6 mb-3">
-                                <label>Contraseña</label>
+                                <label class="form-label fw-semibold">Contraseña</label>
                                 <input type="password" name="nuevo_password" class="form-control" required>
                             </div>
+
                         </div>
-                        <div class="mb-3">
-                            <label>Rol del Usuario</label>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Nivel de acceso</label>
+
                             <select name="nuevo_rol" class="form-select">
-                                <option value="admin">Administrador (Carga puntos)</option>
-                                <option value="master">Master (Control total)</option>
+                                <option value="admin">Administrador</option>
+                                <option value="master">Master</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Crear Usuario</button>
+
+                        <button type="submit" class="btn btn-danger btn-master">
+                            ⚡ Crear Usuario
+                        </button>
+
                     </form>
 
-                    <hr>
-                    <h5>Usuarios Registrados</h5>
-                    <table class="table table-sm">
-                        <thead>
-                            <tr><th>ID</th><th>Usuario</th><th>Rol</th></tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($usuarios as $u): ?>
+                    <hr class="my-4">
+
+                    <h5 class="fw-bold mb-3">👥 Usuarios Registrados</h5>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <?php foreach($usuarios as $u): ?>
+
                                 <tr>
                                     <td><?php echo $u['id']; ?></td>
-                                    <td><?php echo $u['username']; ?></td>
-                                    <td><span class="badge <?php echo $u['rol']=='master'?'bg-danger':'bg-secondary'; ?>"><?php echo $u['rol']; ?></span></td>
+
+                                    <td class="fw-semibold">
+                                        <?php echo $u['username']; ?>
+                                    </td>
+
+                                    <td>
+                                        <span class="badge <?php echo $u['rol']=='master'?'bg-danger':'bg-secondary'; ?> rounded-pill px-3 py-2">
+                                            <?php echo strtoupper($u['rol']); ?>
+                                        </span>
+                                    </td>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <div class="row mt-5">
-    <div class="col-md-12">
-        <div class="card shadow">
-            <div class="card-header bg-success text-white">Gestión de Cursos y Puntos Iniciales</div>
-            <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Curso</th>
-                            <th>División</th>
-                            <th>Puntos Iniciales</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                        $cursos_master = $conexion->query("SELECT * FROM cursos ORDER BY nombre_curso ASC")->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($cursos_master as $cm): 
-                        ?>
-                        <tr>
-                            <form action="procesar_master.php" method="POST">
-                                <input type="hidden" name="accion" value="actualizar_puntos_iniciales">
-                                <input type="hidden" name="curso_id" value="<?= $cm['id'] ?>">
-                                <td><?= $cm['nombre_curso'] ?></td>
-                                <td><?= $cm['division'] ?></td>
-                                <td>
-                                    <input type="number" name="puntos_ini" class="form-control form-control-sm" value="<?= $cm['puntos_iniciales'] ?>">
-                                </td>
-                                <td>
-                                    <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
-                                </td>
-                            </form>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+
+                                <?php endforeach; ?>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
                 </div>
+
             </div>
+
         </div>
+
+        <!-- CURSOS -->
+        <div class="col-12">
+
+            <div class="card master-card master-shadow">
+
+                <div class="card-header bg-primary text-white py-3 px-4 border-0">
+                    <h5 class="mb-0 section-title">🏆 GESTIÓN DE CURSOS Y PUNTOS INICIALES</h5>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Curso</th>
+                                    <th>División</th>
+                                    <th>Puntos Iniciales</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <?php 
+                            $cursos_master = $conexion->query("SELECT * FROM cursos ORDER BY nombre_curso ASC")->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($cursos_master as $cm): 
+                            ?>
+
+                            <tr>
+
+                                <form action="procesar_master.php" method="POST">
+
+                                    <input type="hidden" name="accion" value="actualizar_puntos_iniciales">
+                                    <input type="hidden" name="curso_id" value="<?= $cm['id'] ?>">
+
+                                    <td class="fw-semibold"><?= $cm['nombre_curso'] ?></td>
+
+                                    <td><?= $cm['division'] ?></td>
+
+                                    <td style="max-width:180px;">
+                                        <input type="number"
+                                               name="puntos_ini"
+                                               class="form-control form-control-sm"
+                                               value="<?= $cm['puntos_iniciales'] ?>">
+                                    </td>
+
+                                    <td>
+                                        <button type="submit" class="btn btn-primary btn-sm rounded-pill px-3">
+                                            💾 Actualizar
+                                        </button>
+                                    </td>
+
+                                </form>
+
+                            </tr>
+
+                            <?php endforeach; ?>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
 </body>
